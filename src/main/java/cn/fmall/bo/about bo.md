@@ -1,0 +1,2 @@
+- business-object业务对象
+- 后期发展将使用到,与view-object配合使用
