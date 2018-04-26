@@ -38,7 +38,7 @@ public class UserController {
         //调用service
         ServerResponse<User> userServerResponse = iUserService.login(username,password);
         //判断响应状态
-        if (userServerResponse.statusIsSuccess()) {
+        if (userServerResponse.currentStatusIsSuccess()) {
             //响应为成功,将用户数据填充进session域
             session.setAttribute(Constant.CURRENT_USER,userServerResponse.getData());
         }
@@ -174,14 +174,13 @@ public class UserController {
         }
         user.setId(oldUser.getId());
         ServerResponse updateResponse = iUserService.updateUserInfo(user);
-        if (updateResponse.statusIsSuccess()) {
+        if (updateResponse.currentStatusIsSuccess()) {
             //更新session
             session.setAttribute(Constant.CURRENT_USER,updateResponse.getData());
         }
         return updateResponse;
 
     }
-
 
     /**
      * 获取用户详细信息
@@ -191,12 +190,17 @@ public class UserController {
     @RequestMapping(value = "get_user_detail_info.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse getUserDetailInfo(HttpSession session){
+        //从session中获取对象信息
         User currentUser = (User)session.getAttribute(Constant.CURRENT_USER);
+        //如果检测用户状态未登录,则要求强制登录
         if (currentUser == null) {
             //如果传status=10给前端,前端需要做强制登录操作
-            ServerResponse.createErrorResponse(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,需要强制登录,status=10");
+            return ServerResponse.createErrorResponse(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,需要强制登录,status=10");
         }
+
+        //检测为用户已登录后,可取得信息
         return iUserService.getUserDetailInfo(currentUser.getId());
+//        return ServerResponse.createSuccessResponse(session.getAttribute("currentUser"));
     }
 
 }

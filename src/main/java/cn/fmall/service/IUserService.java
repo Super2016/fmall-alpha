@@ -32,4 +32,10 @@ public interface IUserService {
 
     //获取用户详细信息
     public ServerResponse getUserDetailInfo(Integer userId);
+
+
+    //后台管理员操作
+
+    //验证管理员身份
+    public ServerResponse checkAdminRole(User user);
 }

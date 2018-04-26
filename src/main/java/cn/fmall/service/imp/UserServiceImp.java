@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * 用户服务
+ */
 @Service("iUserService")
 public class UserServiceImp implements IUserService{
 
@@ -56,13 +59,13 @@ public class UserServiceImp implements IUserService{
 
         //验证用户名是否存在
         ServerResponse validUser = this.checkValid(user.getUsername(),Constant.USERNAME);
-        if (!validUser.statusIsSuccess()) {
+        if (!validUser.currentStatusIsSuccess()) {
             return ServerResponse.createErrorResponseMsg("用户名已存在");
         }
 
         //验证邮箱是否存在
         ServerResponse validEmail = this.checkValid(user.getEmail(),Constant.EMAIL);
-        if (!validEmail.statusIsSuccess()) {
+        if (!validEmail.currentStatusIsSuccess()) {
             return ServerResponse.createErrorResponseMsg("邮箱已存在");
         }
 
@@ -122,7 +125,7 @@ public class UserServiceImp implements IUserService{
     public ServerResponse forgetAndgetQuestion(String username){
         //首先查询是否存在username
         ServerResponse validResponse = this.checkValid(username,Constant.USERNAME);
-        if (validResponse.statusIsSuccess()) {
+        if (validResponse.currentStatusIsSuccess()) {
             //不存在用户名
             return ServerResponse.createErrorResponseMsg("用户不存在");
         }
@@ -176,7 +179,7 @@ public class UserServiceImp implements IUserService{
         }
         //检验用户名是否存在
         ServerResponse validResponse = this.checkValid(username,Constant.USERNAME);
-        if (validResponse.statusIsSuccess()) {
+        if (validResponse.currentStatusIsSuccess()) {
             //用户不存在
             return ServerResponse.createErrorResponseMsg("用户不存在");
         }
@@ -263,6 +266,7 @@ public class UserServiceImp implements IUserService{
      */
     @Override
     public ServerResponse getUserDetailInfo(Integer userId){
+        //根据传入的id查找到对象
         User user = userMapper.selectByPrimaryKey(userId);
         if (user == null) {
             return ServerResponse.createErrorResponseMsg("未找到当前用户");
@@ -270,5 +274,27 @@ public class UserServiceImp implements IUserService{
         //将密码置空,由于无需用到密码
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createSuccessResponse(user);
+    }
+
+
+
+
+    /*                              管理员操作                              */
+
+
+
+    /**
+     * 验证管理员身份
+     * @param user
+     * @return
+     */
+    @Override
+    public ServerResponse checkAdminRole(User user){
+        //验证用户已登录并且是管理员账户
+        if (user != null && user.getRole().intValue() == Constant.Role.ROLE_ADMIN) {
+            return ServerResponse.createSuccessResponse();
+        } else {
+            return ServerResponse.createErrorResponse();
+        }
     }
 }

@@ -21,20 +21,22 @@ public class ServerResponse<T> implements Serializable{
     //展示数据
     private T data;
 
+    //构造方法
+    //仅返回状态码
     private ServerResponse(int status){
         this.status = status;
     }
-
+    //返回状态码与消息
     private ServerResponse(int status,String msg){
         this.status = status;
         this.msg = msg;
     }
-
+    //返回状态码与数据
     private ServerResponse(int status,T data){
         this.status = status;
         this.data = data;
     }
-
+    //返回状态码、消息、数据
     private ServerResponse(int status,String msg,T data){
         this.status = status;
         this.msg = msg;
@@ -43,7 +45,8 @@ public class ServerResponse<T> implements Serializable{
 
     @JsonIgnore
     //不出现在json序列化内容中
-    public boolean statusIsSuccess(){
+    //判断状态码是SUCCESS
+    public boolean currentStatusIsSuccess(){
         return this.status == ResponseCode.SUCCESS.getCode();
     }
 
@@ -51,47 +54,80 @@ public class ServerResponse<T> implements Serializable{
     public int getStatus(){
         return this.status;
     }
-
     //获取消息
     public String getMsg() {
         return msg;
     }
-
     //获取数据
     public T getData() {
         return data;
     }
 
+
+
+
+
+/* <<<<<<<<<<<<<<<<<<<<<<<<<<<  SUCCESS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+
+
+
+
+
+    //SUCCESS
+    //无参
+    //仅返回status
     public static <T> ServerResponse<T> createSuccessResponse(){
-        //仅返回status
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
     }
 
+    //SUCCESS
+    //msg
+    //返回status和msg
     public static <T> ServerResponse<T> createSuccessResponseMsg(String msg){
-        //返回status和msg
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg);
     }
 
+    //SUCCESS
+    //data
+    //返回status和data
     public static <T> ServerResponse<T> createSuccessResponse(T data){
-        //返回status和data
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),data);
     }
 
+    //SUCCESS
+    //msg,data
+    //返回status,msg,data
     public static <T> ServerResponse<T> createSuccessResponse(String msg,T data){
-        //返回status,msg,data
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg,data);
     }
 
+
+
+
+
+    /* <<<<<<<<<<<<<<<<<<<<<<<<<<<  SUCCESS  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+
+
+
+
+    //ERROR
+    //无参
+    //仅返回status及其默认描述
     public static <T> ServerResponse<T> createErrorResponse(){
-        //仅返回status及其默认描述
         return new ServerResponse<T>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getDescription());
     }
+
+    //ERROR
+    //errorMsg
+    //返回status及自定义errorMsg
     public static <T> ServerResponse<T> createErrorResponseMsg(String errorMsg){
-        //返回status及自定义消息
         return new ServerResponse<T>(ResponseCode.ERROR.getCode(),errorMsg);
     }
+
+    //ERROR
+    //errorCode,errorMsg
+    //返回自定义errorCode及自定义errorMsg
     public static <T> ServerResponse<T> createErrorResponse(int errorCode,String errorMsg){
-        //返回自定义status及自定义消息
         return new ServerResponse<T>(errorCode,errorMsg);
     }
 }

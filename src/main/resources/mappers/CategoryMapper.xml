@@ -26,8 +26,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.fmall.pojo.Category">
-    insert into fmall_category (id, parent_id, name, 
-      status, sort_order, create_time, 
+    insert into fmall_category (
+      id, parent_id, name,
+      status, sort_order,
+      create_time,
       update_time)
     values (
       #{id,jdbcType=INTEGER},
