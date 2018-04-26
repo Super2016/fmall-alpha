@@ -1,6 +1,7 @@
 package cn.fmall.pojo;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Category {
     private Integer id;
@@ -85,5 +86,28 @@ public class Category {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+
+
+
+
+
+    //Tips 如果两个对象相同,hashCode相同
+    //Tip 如果两个对象的hashCode相同,两对象并不一定相同
+
+    //可以有更多属性作为判断因子
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
+    }
+
+    //只有一个属性用作判断因子,这里是id
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

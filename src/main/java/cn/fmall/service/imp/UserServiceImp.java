@@ -279,7 +279,7 @@ public class UserServiceImp implements IUserService{
 
 
 
-    /*                              管理员操作                              */
+    /*                              管理员部分                              */
 
 
 

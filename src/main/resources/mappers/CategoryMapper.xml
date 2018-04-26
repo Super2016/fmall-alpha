@@ -21,10 +21,18 @@
     from fmall_category
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectChildCategoryByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+      SELECT <include refid="Base_Column_List"/>
+      FROM fmall_category
+      WHERE parent_id=#{parentId}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fmall_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="cn.fmall.pojo.Category">
     insert into fmall_category (
       id, parent_id, name,
@@ -41,6 +49,7 @@
       now()
     )
   </insert>
+
   <insert id="insertSelective" parameterType="cn.fmall.pojo.Category">
     insert into fmall_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -90,6 +99,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.fmall.pojo.Category">
     update fmall_category
     <set>
@@ -114,6 +124,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="cn.fmall.pojo.Category">
     update fmall_category
     set parent_id = #{parentId,jdbcType=INTEGER},
@@ -124,4 +135,5 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

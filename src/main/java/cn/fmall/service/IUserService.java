@@ -34,7 +34,7 @@ public interface IUserService {
     public ServerResponse getUserDetailInfo(Integer userId);
 
 
-    //后台管理员操作
+    /*                           后台管理员操作                                */
 
     //验证管理员身份
     public ServerResponse checkAdminRole(User user);
