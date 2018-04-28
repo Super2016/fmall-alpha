@@ -17,20 +17,24 @@
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
+
   <sql id="Base_Column_List">
     id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, status, 
     create_time, update_time
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fmall_product
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fmall_product
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="cn.fmall.pojo.Product">
     insert into fmall_product (id, category_id, name, 
       subtitle, main_image, sub_images, 
@@ -51,6 +55,7 @@
       now()
     )
   </insert>
+
   <insert id="insertSelective" parameterType="cn.fmall.pojo.Product">
     insert into fmall_product
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -130,6 +135,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.fmall.pojo.Product">
     update fmall_product
     <set>
@@ -169,6 +175,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="cn.fmall.pojo.Product">
     update fmall_product
     set category_id = #{categoryId,jdbcType=INTEGER},

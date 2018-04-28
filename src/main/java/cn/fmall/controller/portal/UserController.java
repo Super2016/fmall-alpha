@@ -60,7 +60,7 @@ public class UserController {
     }
 
     /**
-     * 注销登出
+     * 用户注册
      * @param user
      * @return
      */
@@ -161,19 +161,22 @@ public class UserController {
 
     /**
      * 更新用户基本信息
-     * @param user
+     * @param newUser
      * @param session
      * @return
      */
     @RequestMapping(value = "update_user_base_info.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> updateUserBaseInfo(User user,HttpSession session){
+    public ServerResponse<User> updateUserBaseInfo(User newUser,HttpSession session){
+        //从session中获得当前用户信息
         User oldUser = (User) session.getAttribute(Constant.CURRENT_USER);
         if (oldUser == null) {
             return ServerResponse.createErrorResponseMsg("用户未登录");
         }
-        user.setId(oldUser.getId());
-        ServerResponse updateResponse = iUserService.updateUserInfo(user);
+        //由于从用户传过来的对象无id信息,设置id数据
+        newUser.setId(oldUser.getId());
+        //将新用户信息更新到数据库
+        ServerResponse updateResponse = iUserService.updateUserInfo(newUser);
         if (updateResponse.currentStatusIsSuccess()) {
             //更新session
             session.setAttribute(Constant.CURRENT_USER,updateResponse.getData());
@@ -197,7 +200,6 @@ public class UserController {
             //如果传status=10给前端,前端需要做强制登录操作
             return ServerResponse.createErrorResponse(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,需要强制登录,status=10");
         }
-
         //检测为用户已登录后,可取得信息
         return iUserService.getUserDetailInfo(currentUser.getId());
 //        return ServerResponse.createSuccessResponse(session.getAttribute("currentUser"));

@@ -1,3 +1,4 @@
-- 封装pojo返回给controller最后在前端页面展示
-- 当前仅当作value-object
-- 后期可发展成view-object
+     1.封装pojo返回给controller最后在前端页面展示
+     2.当前仅当作value-object
+     3.后期可发展成view-object
+

@@ -110,7 +110,7 @@ public class UserServiceImp implements IUserService{
             }
         } else {
             //接收type为空,未指定type
-            return ServerResponse.createErrorResponseMsg("参数错误,未指定需校验的类型");
+            return ServerResponse.createErrorResponseMsg("参数错误,未指定需校验的类型[User/Email]");
         }
         //校验通过,返回成功状态码与消息
         return ServerResponse.createSuccessResponseMsg("校验通过");
