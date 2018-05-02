@@ -19,8 +19,8 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, status, 
-    create_time, update_time
+    id, category_id, name, subtitle, main_image, sub_images, detail, price,
+    stock, status, create_time, update_time
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -41,6 +41,22 @@
         AND id=#{productId}
       </if>
     </where>
+  </select>
+
+  <select id="selectProductByNameAndCategoryIdList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT <include refid="Base_Column_List" />
+    FROM fmall_product
+    WHERE status = 1
+    <if test="productName != null">
+      AND name LIKE #{productName}
+    </if>
+    <if test="categoryIdList">
+      AND category_id IN
+      <foreach item="listItem" index="listIndex" open="(" separator="," close=")" collection="categoryIdList">
+        #{listItem}
+      </foreach>
+
+    </if>
   </select>
 
   <select id="selectProductList" resultMap="BaseResultMap">
