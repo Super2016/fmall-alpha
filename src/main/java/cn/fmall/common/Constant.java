@@ -10,19 +10,31 @@ public class Constant{
     public static final String EMAIL = "email";
     public static final String TOKEN_PREFIX = "token_";
 
-    //使用接口创建角色分组
+    //角色分组
     public interface Role{
         int ROLE_CUSTOMER = 0; //普通用户
         int ROLE_ADMIN = 1; //管理员
     }
 
-    //使用接口创建排序方式分组
+    //购物车选中状态分组
+    public interface CartCheckedStatus{
+        int CHECKED = 1; //选中状态
+        int UN_CHECKED = 0;//未选中状态
+    }
+
+    //库存供应分组
+    public interface StockEnough{
+        String STOCK_ENOUGH = "STOCK_ENOUGH";
+        String STOCK_LACK = "STOCK_LACK";
+    }
+
+    //排序方式分组
     public interface ProductListOrderBy{
         //这里选择使用Set集合因为其时间复杂度为O(1),相比List的时间复杂度O(n)效率高
         Set<String> PRICE_ASC_DASC = Sets.newHashSet("price_asc","price_dasc");
-
     }
 
+    //带参数的枚举实例
     public enum ProductStatusEnum{
         ON_SALE(1,"在线");
 

@@ -186,7 +186,12 @@ public class ProductServiceImpl implements IProductService{
 
 
 
+
+
+
 /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<前台部分>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
+
 
 
 
@@ -233,13 +238,14 @@ public class ProductServiceImpl implements IProductService{
                                                    int pageNum,
                                                    int pageSize,
                                                    String orderBy){
-        if (StringUtils.isBlank(keyWord) && categoryId == null) {
-            //校验参数,查询产品关键字与分类ID均是空,代表参数错误
-            return ServerResponse.createErrorResponse(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDescription());
-        }
 
         //新建一个List用户存放所查询到的各分类节点ID
         List<Integer> categoryIdList = new ArrayList<Integer>();
+
+        //>>校验参数,查询产品关键字与分类ID均是空,代表参数错误
+        if (StringUtils.isBlank(keyWord) && categoryId == null) {
+            return ServerResponse.createErrorResponse(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDescription());
+        }
 
         //>>分类ID不为空时,查询到分类并保存到Category中
         if (categoryId != null) {
@@ -266,7 +272,7 @@ public class ProductServiceImpl implements IProductService{
             //设置模糊查询参数
             keyWord = new StringBuilder().append("%").append(keyWord).append("%").toString();
         }
-        //记录分页开始与单页容量
+        //分页部分,记录分页开始与单页容量
         PageHelper.startPage(pageNum,pageSize);
         //动态排序处理
         if (StringUtils.isNotBlank(orderBy)) {
@@ -298,6 +304,7 @@ public class ProductServiceImpl implements IProductService{
 
 
     }
+
 
 
 
